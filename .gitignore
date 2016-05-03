@@ -1,0 +1,7 @@
+# virtualenv
+/bin
+/include
+/lib
+/local
+/pip-selfcheck.json
+/playbook.retry

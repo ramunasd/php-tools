@@ -1,0 +1,15 @@
+---
+
+- name: "tools:hooks:user-dir | Make sure tree of user hooks present"
+  file:
+    state: "directory"
+    path: "~/.git_hooks"
+    mode: "{{ tools.default.mode }}"
+
+- name: "tools:hooks:user-populate | Make sure all user hooks present"
+  copy:
+    src: templates/hooks/
+    dest: "~/.git_hooks"
+
+- name: "tools:hooks:user-chmod | Make sure all user hooks is executable"
+  command: "find ~/.git_hooks -type f -exec chmod ug+x {} \\;"

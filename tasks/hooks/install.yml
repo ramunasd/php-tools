@@ -1,0 +1,12 @@
+---
+
+- name: "tools:hooks:clone | Make sure git hooks installer is present"
+  git:
+    dest: "{{ tools.path.share }}/git-hooks"
+    repo: "https://github.com/icefox/git-hooks.git"
+
+- name: "tools:hooks:install | Make sure script is executable"
+  file:
+    src: "{{ tools.path.share }}/git-hooks/git-hooks"
+    dest: "{{ tools.path.bin }}/git-hooks"
+    state: link

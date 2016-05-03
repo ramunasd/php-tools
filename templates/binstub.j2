@@ -1,0 +1,14 @@
+{% set executable = item.target | expanduser -%}
+{% if item.target|first != '/' -%}
+{% set executable = tools.path.share | expanduser ~ '/' ~ executable -%}
+{% endif -%}
+
+{% set executable = executable | replace('%path_bin%', tools.path.bin) | replace('%path_share%', tools.path.share) -%}
+
+#!/usr/bin/env sh
+
+if [ -r {{ item.configFile }} ]; then
+    exec {{ executable }} {{ item.configOption }} {{ item.configFile }} "$@"
+else
+    exec {{ executable }} "$@"
+fi

@@ -1,0 +1,30 @@
+#!/bin/bash
+
+PHPLINT_BIN=`which parallel-lint`
+PHPLINT_OPTIONS="--no-colors"
+TMP_STAGING=".tmp_staging"
+
+if [ ! -d "$TMP_STAGING" ]; then
+    exit
+fi
+
+# simple check if linter is available
+if [ ! -x $PHPLINT_BIN ]; then
+    echo "PHP Parallel lint bin not found or executable -> $PHPCS_BIN"
+    exit 1
+fi
+
+OUTPUT=$($PHPLINT_BIN $PHPLINT_OPTIONS $TMP_STAGING)
+RETVAL=$?
+
+# if linter failed
+if [ $RETVAL -eq 255 ]; then
+    exit
+fi
+
+if [ $RETVAL -ne 0 ]; then
+    echo "$OUTPUT" | less
+    echo "Commit cancelled. Please fix PHP syntax errors!"
+fi
+
+exit $RETVAL

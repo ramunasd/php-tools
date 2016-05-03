@@ -1,0 +1,174 @@
+---
+
+tools:
+  path:
+    bin: '~/.local/bin'
+    share: '~/.local/share'
+  default:
+    mode: '0775'
+  packages:
+    - name: 'phpunit'
+      package: 'phpunit/phpunit'
+      version: '^4.8'
+      executables:
+        - 'phpunit'
+
+    - name: 'phpcs'
+      package: 'squizlabs/php_codesniffer'
+      version: '2.5.x'
+      executables:
+        - 'scripts/phpcs'
+        - 'scripts/phpcbf'
+
+    - name: 'php-cs-fixer'
+      package: 'fabpot/php-cs-fixer'
+      version: '~1.10'
+      executables:
+        - 'php-cs-fixer'
+
+    - name: 'phpmd'
+      package: 'phpmd/phpmd'
+      version: '~2.3'
+      executables:
+        - 'src/bin/phpmd'
+
+    - name: 'phpcpd'
+      package: 'sebastian/phpcpd'
+      version: '~2.0'
+      executables:
+        - 'phpcpd'
+
+    - name: 'phploc'
+      package: 'phploc/phploc'
+      version: '~2.1'
+      executables:
+        - 'phploc'
+
+    - name: 'phpdcd'
+      package: 'sebastian/phpdcd'
+      version: '~1.0'
+      executables:
+        - 'phpdcd'
+
+    - name: 'pdepend'
+      package: 'pdepend/pdepend'
+      version: '~2.2'
+      executables:
+        - 'src/bin/pdepend'
+
+    - name: 'php-parallel-lint'
+      package: 'jakub-onderka/php-parallel-lint'
+      executables:
+        - 'parallel-lint'
+
+    - name: 'yaml-linter'
+      package: 'hexmedia/yaml-linter'
+      executables:
+        - 'bin/yaml-lint'
+
+    - name: 'xml-lint'
+      package: 'sclable/xml-lint'
+      executables:
+        - 'bin/xmllint'
+
+    - name: 'phpunit'
+      package: 'phpunit/phpunit'
+      version: '^4.8'
+      executables:
+        - 'phpunit'
+
+    - name: 'phpspec'
+      package: 'phpspec/phpspec'
+      version: '~2.3'
+      executables:
+        - 'bin/phpspec'
+
+    - name: 'puli'
+      package: 'puli/cli'
+      version: '^1.0'
+      stability: 'beta'
+      executables:
+        - 'bin/puli'
+
+  executables:
+    - name: 'xdebug'
+      type: 'wrapper'
+      target: '/usr/bin/php'
+      config: '-dzend_extension=xdebug.so -dxdebug.remote_enable=1 -dxdebug.max_nesting_level=200 -dxdebug.coverage_enable=0'
+      template: '%target% %config% "$@"'
+
+    - name: 'phpunit'
+      type: 'autoconfig'
+      target: 'phpunit/vendor/bin/phpunit'
+      configFile: '.config/phpunit/config.xml'
+      configOption: '-c'
+
+    - name: 'xphpunit'
+      type: 'autoconfig'
+      target: "/usr/bin/php -dzend_extension=xdebug.so -dxdebug.remote_enable=1 -dxdebug.max_nesting_level=200 -dxdebug.coverage_enable=0 %path_share%/phpunit/vendor/bin/phpunit"
+      configFile: '.config/phpunit/config.xml'
+      configOption: '-c'
+
+    - name: 'xcoverage'
+      type: 'autoconfig'
+      target: '/usr/bin/php -dzend_extension=xdebug.so -dxdebug.max_nesting_level=200 -dxdebug.coverage_enable=1 %path_share%/phpunit/vendor/bin/phpunit'
+      configFile: '.config/phpunit/config.xml'
+      configOption: '-c'
+
+    - name: 'xprofile'
+      type: 'wrapper'
+      target: '/usr/bin/php'
+      config: '-dzend_extension=xdebug.so -dxdebug.profiler_enable=1 -dxdebug.profiler_output_dir=.'
+      template: '%target% %config% "$@"'
+
+    - name: 'phpcs'
+      type: 'wrapper'
+      target: 'phpcs/vendor/bin/phpcs'
+      config: '--standard=psr2'
+      template: '%target% %config% "$@"'
+
+    - name: 'php-cs-fixer'
+      type: 'link'
+      target: 'php-cs-fixer/vendor/bin/php-cs-fixer'
+
+    - name: 'phpmd'
+      type: 'link'
+      target: 'phpmd/vendor/bin/phpmd'
+
+    - name: 'phpcpd'
+      type: 'link'
+      target: 'phpcpd/vendor/bin/phpcpd'
+
+    - name: 'phploc'
+      type: 'link'
+      target: 'phploc/vendor/bin/phploc'
+
+    - name: 'phpdcd'
+      type: 'link'
+      target: 'phpdcd/vendor/bin/phpdcd'
+
+    - name: 'pdepend'
+      type: 'link'
+      target: 'pdepend/vendor/bin/pdepend'
+
+    - name: 'parallel-lint'
+      type: 'link'
+      target: 'php-parallel-lint/vendor/bin/parallel-lint'
+
+    - name: 'yaml-lint'
+      type: 'link'
+      target: 'yaml-linter/vendor/bin/yaml-lint'
+
+    - name: 'xml-lint'
+      type: 'wrapper'
+      target: 'xml-lint/vendor/bin/xmllint'
+      config: '--exclude=vendor'
+      template: '%target% %config% "$@"'
+
+    - name: 'phpspec'
+      type: 'link'
+      target: 'phpspec/vendor/bin/phpspec'
+
+    - name: 'puli'
+      type: 'link'
+      target: 'puli/vendor/bin/puli'

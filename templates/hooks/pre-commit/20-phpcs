@@ -1,0 +1,77 @@
+#!/bin/bash
+# PHP CodeSniffer pre-commit hook for git
+#
+# based on https://github.com/s0enke/git-hooks
+#
+
+PHPCS_BIN=`which phpcs`
+PHPCS_CODING_STANDARD=psr2
+PHPCS_IGNORE=
+PHPCS_FILE_EXTENSIONS="php,phtml"
+PHPCS_ENCODING=utf-8
+TMP_STAGING=".tmp_staging"
+
+if [ ! -d "$TMP_STAGING" ]; then
+    exit
+fi
+
+# parse config
+CONFIG_FILE=$(dirname $0)/config
+if [ -e $CONFIG_FILE ]; then
+    . $CONFIG_FILE
+fi
+
+# simple check if code sniffer is set up correctly
+if [ ! -x $PHPCS_BIN ]; then
+    echo "PHP CodeSniffer bin not found or executable -> $PHPCS_BIN"
+    exit 1
+fi
+
+# execute the code sniffer
+if [ "$PHPCS_IGNORE" != "" ]; then
+    IGNORE="--ignore=$PHPCS_IGNORE"
+else
+    IGNORE=""
+fi
+
+if [ "$PHPCS_SNIFFS" != "" ]; then
+    SNIFFS="--sniffs=$PHPCS_SNIFFS"
+else
+    SNIFFS=""
+fi
+
+if [ "$PHPCS_ENCODING" != "" ]; then
+    ENCODING="--encoding=$PHPCS_ENCODING"
+else
+    ENCODING=""
+fi
+
+if [ "$PHPCS_IGNORE_WARNINGS" == "1" ]; then
+    IGNORE_WARNINGS="-n"
+else
+    IGNORE_WARNINGS=""
+fi
+
+if [ "$PHPCS_FILE_EXTENSIONS" != "" ]; then
+    FILE_EXTENSIONS="--extensions=$PHPCS_FILE_EXTENSIONS"
+else
+    FILE_EXTENSIONS=""
+fi
+
+OUTPUT=$($PHPCS_BIN -s $IGNORE_WARNINGS --standard=$PHPCS_CODING_STANDARD $ENCODING $IGNORE $SNIFFS $FILE_EXTENSIONS $TMP_STAGING)
+RETVAL=$?
+
+if [ $RETVAL -ne 0 ]; then
+    echo "$OUTPUT" | less
+    # Allows us to read user input below, assigns stdin to keyboard
+    exec < /dev/tty
+    read -n 1 -p "Ignore phpcs warnings? [N/y]: " yn
+    if [ "$yn" == "y" ]; then
+        echo
+        echo "Ignoring phpcs warnings..."
+        exit 0
+    fi
+    echo "Commit cancelled. Please fix phpcs warnings!"
+fi
+
+exit $RETVAL

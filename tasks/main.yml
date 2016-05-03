@@ -1,0 +1,19 @@
+---
+
+- include: setup/dirs.yml
+  tags: [development, setup]
+
+- include: setup/path.yml
+  tags: [development, setup]
+
+- include: install/libraries.yml
+  tags: [development, install]
+
+- include: install/executables.yml
+  tags: [development, executables]
+
+- include: hooks/install.yml
+  tags: [development, hooks]
+
+- include: hooks/populate.yml
+  tags: [development, hooks]

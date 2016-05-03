@@ -1,0 +1,9 @@
+#!/bin/bash
+#
+# Cleanup staged files
+
+TMP_STAGING=".tmp_staging"
+
+if [ -e $TMP_STAGING ]; then
+    rm -rf $TMP_STAGING
+fi

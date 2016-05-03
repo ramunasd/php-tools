@@ -1,0 +1,20 @@
+---
+
+- name: install:libraries:init
+  command: "composer init -nq -s beta -d {{ tools.path.share }}/{{ item.name }}"
+  args:
+    creates: "{{ tools.path.share }}/{{ item.name }}/composer.json"
+  with_items: tools.packages
+
+- name: install:libraries:install
+  command: "composer require -n --prefer-dist --no-progress -d {{ tools.path.share }}/{{ item.name }} {{ item.package }} {{ item.version|default('') }}"
+  with_items: tools.packages
+
+- name: install.libraries:permission
+  file:
+    path: "{{ tools.path.share }}/{{ item.0.name }}/vendor/{{ item.0.package }}/{{ item.1 }}"
+    state: file
+    mode: 0775
+  with_subelements:
+    - tools.packages
+    - executables

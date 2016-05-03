@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+{% set executable = item.template | replace('%target%', item.target | expanduser) | replace('%config%', item.config) -%}
+{% if item.target|first != '/' -%}
+{% set executable = tools.path.share | expanduser ~ '/' ~ executable -%}
+{% endif -%}
+
+exec {{ executable }}

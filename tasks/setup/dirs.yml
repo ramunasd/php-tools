@@ -1,0 +1,17 @@
+---
+
+- name: setup:dirs:bin
+  file:
+    state: directory
+    path: "{{ item }}"
+    mode: '{{ tools.default.mode }}'
+  with_items:
+    - '{{ tools.path.bin }}'
+    - '{{ tools.path.share }}'
+
+- name: setup:dirs:share
+  file:
+    state: directory
+    path: '{{ tools.path.share }}/{{ item.name }}'
+    mode: '{{ tools.default.mode }}'
+  with_items: tools.packages
