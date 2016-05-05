@@ -9,26 +9,26 @@ tools:
   packages:
     - name: 'phpunit'
       package: 'phpunit/phpunit'
-      version: '^4.8'
+      version: '^5.3'
       executables:
         - 'phpunit'
 
     - name: 'phpcs'
       package: 'squizlabs/php_codesniffer'
-      version: '2.5.x'
+      version: '^2.6'
       executables:
         - 'scripts/phpcs'
         - 'scripts/phpcbf'
 
     - name: 'php-cs-fixer'
       package: 'fabpot/php-cs-fixer'
-      version: '~1.10'
+      version: '~1.11'
       executables:
         - 'php-cs-fixer'
 
     - name: 'phpmd'
       package: 'phpmd/phpmd'
-      version: '~2.3'
+      version: '^2.4'
       executables:
         - 'src/bin/phpmd'
 
@@ -40,7 +40,7 @@ tools:
 
     - name: 'phploc'
       package: 'phploc/phploc'
-      version: '~2.1'
+      version: '^3.0'
       executables:
         - 'phploc'
 
@@ -58,6 +58,7 @@ tools:
 
     - name: 'php-parallel-lint'
       package: 'jakub-onderka/php-parallel-lint'
+      version: '^0.9'
       executables:
         - 'parallel-lint'
 
@@ -71,15 +72,9 @@ tools:
       executables:
         - 'bin/xmllint'
 
-    - name: 'phpunit'
-      package: 'phpunit/phpunit'
-      version: '^4.8'
-      executables:
-        - 'phpunit'
-
     - name: 'phpspec'
       package: 'phpspec/phpspec'
-      version: '~2.3'
+      version: '^2.5'
       executables:
         - 'bin/phpspec'
 
