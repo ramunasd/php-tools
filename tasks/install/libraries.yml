@@ -1,20 +1,20 @@
 ---
 
-- name: install:libraries:init
+- name: "tools:install:libraries:init | Make sure composer package is initialized"
   command: "composer init -nq -s beta -d {{ tools.path.share }}/{{ item.name }}"
   args:
     creates: "{{ tools.path.share }}/{{ item.name }}/composer.json"
-  with_items: tools.packages
+  with_items: "{{ tools.packages }}"
 
-- name: install:libraries:install
+- name: "tools:install:libraries:install | Make sure composer package is installed"
   command: "composer require -n --prefer-dist --no-progress -d {{ tools.path.share }}/{{ item.name }} {{ item.package }} {{ item.version|default('') }}"
-  with_items: tools.packages
+  with_items: "{{ tools.packages }}"
 
-- name: install.libraries:permission
+- name: "tools:install:libraries:permission | Make sure executables has proper permissions"
   file:
     path: "{{ tools.path.share }}/{{ item.0.name }}/vendor/{{ item.0.package }}/{{ item.1 }}"
     state: file
     mode: 0775
   with_subelements:
-    - tools.packages
-    - executables
+    - "{{ tools.packages }}"
+    - "executables"

@@ -6,7 +6,7 @@
     dest: "{{ tools.path.bin }}/{{ item.name }}"
     mode: "{{ item.mode|default(tools.default.mode) }}"
     force: "{{ item.force|default(1, true) }}"
-  with_items: tools.executables
+  with_items: "{{ tools.executables }}"
   when: item.type == "wrapper"
 
 - name: "tools:create-binstubs | Make sure all binstubs present"
@@ -15,7 +15,7 @@
     dest: "{{ tools.path.bin }}/{{ item.name }}"
     mode: "{{ item.mode|default(tools.default.mode) }}"
     force: "{{ item.force|default(1, true) }}"
-  with_items: tools.executables
+  with_items: "{{ tools.executables }}"
   when: item.type == "autoconfig"
 
 - name: "tools:create-links | Make sure all links present"
@@ -25,5 +25,5 @@
     mode: "{{ item.mode|default(tools.default.mode) }}"
     force: "{{ item.force|default(1, true) }}"
     state: "link"
-  with_items: tools.executables
+  with_items: "{{ tools.executables }}"
   when: item.type == "link"
