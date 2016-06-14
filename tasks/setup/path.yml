@@ -4,12 +4,8 @@
   lineinfile:
     dest: "{{ item }}"
     state: "present"
-    # it's important to escape special symbols like . $ ant etc. Filter regex_escape is available only since 2.0
-    regexp: |
-      {{ ('^export PATH=' + tools.path.bin + ':$PATH') | regex_replace('(\.)', '\\.') | regex_replace('(\/)', '\\/') | regex_replace('\$', '\\$') }}
+    regexp: "{{ '^export PATH=' + tools.path.bin | regex_escape() + ':\\$PATH' }}"
     line: "export PATH={{ tools.path.bin }}:$PATH"
     backup: "yes"
   ignore_errors: True # ignore if file is missing
-  with_items:
-    - "~/.bashrc"
-    - "~/.zshrc"
+  with_items: "{{ tools.rc }}"
